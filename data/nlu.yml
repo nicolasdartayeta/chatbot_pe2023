@@ -1,0 +1,256 @@
+version: "3.1"
+nlu:
+# Basicos -------------------
+- intent: agradecer
+  examples: |
+    - gracias
+    - te agradezo
+    - muchas gracias
+
+- intent: saludar
+  examples: |
+    - hola
+    - ola
+    - holu
+    - buenas
+    - hello
+    - hey
+    - buen dia
+
+- intent: despedirse
+  examples: |
+    - chau
+    - hasta luego
+    - adios
+    - hasta pronto
+    - saludos
+    - nos vemos
+    - chao
+    - adios y gracias
+
+- intent: afirmar
+  examples: |
+    - si
+    - bueno
+    - ok
+    - bien
+    - genial
+    - perfecto
+    - exacto
+    - claro
+    - por supuesto
+    - definitivamente
+    - de acuerdo
+    - vale
+    - aceptado
+    - sin duda
+    - desde luego
+    - absolutamente
+    - seguro
+    - aprobado
+    - dale
+
+- intent: negar
+  examples: |
+    - no
+    - mal
+    - de ninguna manera
+    - absolutamente no
+    - ni hablar
+    - imposible
+    - negativo
+    - nop
+
+- intent: que_es_iata
+  examples: |
+    - que es un codigo iata?
+    - que es iata?
+
+- intent: ver_codigos_iata
+  examples: |
+   - mostrame algunos codigos iata
+#---------------------------------------------------
+- intent: recomendar
+  examples: |
+    - quiero que me recomiendes un destino
+    - recomendame un destino
+
+- intent: buscar_vuelo
+  examples: |
+    - quiero que me busques un vuelo
+    - buscame un vuelo
+    - un vuelo
+    - quiero un vuelo
+
+- intent: decir_nombre
+  examples: |
+    - soy [nicolas](nombre)
+    - me llamo [santiago](nombre)
+    - mi nombre es [maria](nombre)
+    - [carlos](nombre)
+    - me llamo [federico](nombre)
+
+- intent: viajar
+  examples: |
+    - quiero irme de viaje
+    - quiero unas vacaciones
+    - quiero viajar
+    - quiero ir de vacaciones
+    - me gustaria irme de vacaciones
+    - me gustaria viajar
+
+- intent: decir_origen
+  examples: |
+    - estoy en [JFK](aeropuerto)
+    - parto de [CDG](aeropuerto)
+    - desde [EZE](aeropuerto)
+    - salgo de [BRC](aeropuerto)
+
+- intent: decir_destino
+  examples: |
+    - quiero ir a [MIA](aeropuerto)
+    - me gustaria ir a [MEX](aeropuerto)
+    - a [DEN](aeropuerto)
+    - quiero llegar a [SFO](aeropuerto)
+
+- intent: decir_preferencia
+  examples: |
+    - quiero ir a la [playa](categoria_destino)
+    - me gustaria ir a [montana](categoria_destino)
+    - [ciudad](categoria_destino)
+    - con [nieve](categoria_destino)
+    - prefiero [ciudad](categoria_destino)
+    - prefiero con [nieve](categoria_destino)
+    - prefiero [playa](categoria_destino)
+    - con [playa](categoria_destino)
+
+- intent: decir_fechas
+  examples: |
+    - del [11/11/2000(fecha)
+    - al [20/04/2012](fecha)
+    - desde el [03/05/2018(fecha)
+    - hasta el [20/11/2019](fecha)
+    - del [28/10/2019(fecha)
+    - hasta el [21/11/2019](fecha)
+    - desde el [01/08/2024(fecha)
+    - al [13/07/2024](fecha)
+    - del [03/03/2024(fecha)
+    - hasta el [20/03/2024](fecha)
+    - quiero ir del [06/07/2024(fecha)
+    - al [21/07/2024](fecha)
+    - quiero ir desde el [29/05/2006(fecha)
+    - hasta el [14/06/2006](fecha)
+    - quiero ir del [15/12/2021(fecha)
+    - hasta el [30/12/2021](fecha)
+    - quiero ir desde el [23/06/2013(fecha)
+    - al [06/07/2013](fecha)
+    - quiero ir del [10/09/2018(fecha)
+    - hasta el [27/09/2018](fecha)
+
+- intent: decir_edad
+  examples: |
+    - tengo [19](edad) anios
+
+- intent: decir_genero
+  examples: |
+    - [hombre](genero)
+    - [mujer](genero)
+    - soy [hombre](genero)
+    - soy [mujer](genero)
+
+- intent: personalizada
+  examples: |
+    - quiero una recomendacion personalizada
+    - una personalizada
+    - una recomendacion personalizada
+    - personalizada
+
+- intent: basica
+  examples: |
+    - quiero una recomendacion basica
+    - una basica
+    - una recomendacion basica
+    - basica
+  
+- intent: ver_datos
+  examples: |
+    - mostrame que datos tenes de mi
+    - que datos tenes de mi
+    - quiero ver que datos tenes de mi
+    - mostrame que datos tenes sobre mi
+    - que datos tenes sobre mi
+    - quiero ver que datos tenes sobre mi
+
+- intent: decir_ingreso
+  examples: |
+    - tengo ingreso [bajo](ingreso)
+    - tengo ingreso [medio](ingreso)
+    - tengo ingreso [alto](ingreso)
+    - tengo ingreso [bajos](ingreso)
+    - tengo ingreso [medios](ingreso)
+    - tengo ingreso [altos](ingreso)
+    - [bajos](ingreso)
+    - [medios](ingreso)
+    - [altos](ingreso)
+    - [bajo](ingreso)
+    - [medio](ingreso)
+    - [alto](ingreso)
+
+# Regexs ---------------------
+- regex: edad
+  examples: |    
+    - ^(1[2-9]|[2-9]\d)$
+
+- regex: fecha
+  examples: |
+    - ^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$
+
+# Lookups --------------------
+- lookup: categoria_destino
+  examples: |
+    - playa
+    - montana
+    - ciudad
+    - nieve
+
+- lookup: nombre
+  examples: |
+    - Juan
+    - Carlos
+    - Manuel
+    - Jose
+    - Alejandro
+
+- lookup: ciudad
+  examples: |
+    - Nueva York
+    - Londres
+    - Tokio
+    - Paris
+    - Ciudad de Mexico
+
+- lookup: aeropuerto
+  examples: |
+    - AKS
+    - BNY
+    - CHY
+    - BAS
+    - FRE
+    - HIR
+    - MBU
+    - AVU
+    - IRA
+    - SCZ
+    - MUA
+    - GZO
+
+# Sinonimos -------------------------------------------
+- synonym: bajos
+  examples: |
+    - bajo
+- synonym: medios
+  examples: |
+    - medio
+- synonym: altos
+  examples: |
+    - alto

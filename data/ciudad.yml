@@ -1,0 +1,67 @@
+version: "3.1"
+
+nlu:
+- lookup: ciudad
+  examples: |
+    - Nueva York
+    - Londres
+    - Tokio
+    - Paris
+    - Ciudad de Mexico
+    - Los angeles
+    - Sidney
+    - Roma
+    - Pekin
+    - Buenos Aires
+    - San Francisco
+    - Toronto
+    - Moscu
+    - Madrid
+    - Rio de Janeiro
+    - Berlin
+    - Amsterdam
+    - Singapur
+    - Estambul
+    - Dubai
+    - El Cairo
+    - Delhi
+    - Bangkok
+    - Seul
+    - Ciudad del Cabo
+    - Chicago
+    - Miami
+    - Vancouver
+    - Helsinki
+    - Barcelona
+    - Roma
+    - Buenos Aires
+    - Estocolmo
+    - Ciudad de Panama
+    - Praga
+    - Johannesburgo
+    - Amsterdam
+    - San Paulo
+    - Singapur
+    - Montreal
+    - Dubai
+    - Budapest
+    - Casablanca
+    - Lima
+    - Oslo
+    - Atenas
+    - Varsovia
+    - San Petersburgo
+    - Seul
+    - Helsinki
+    - Viena
+    - Mumbai
+    - Toronto
+    - Bogota
+    - Copenhague
+    - Nairobi
+    - Edimburgo
+    - Quebec
+    - Zagreb
+    - Ciudad del Vaticano
+    - Bariloche
+    - Denver

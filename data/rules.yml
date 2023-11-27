@@ -1,0 +1,93 @@
+version: "3.1"
+
+rules:
+- rule: agradecer
+  steps:
+  - intent: agradecer
+  - action: utter_cordial
+
+- rule: tipo de recomendacion
+  steps:
+  - intent: recomendar
+  - action: utter_tipo_recomendacion 
+
+- rule: mostrar datos
+  steps:
+  - intent: ver_datos
+  - action: utter_datos_nuevos
+
+- rule: explicar_iata
+  steps:
+  - intent: que_es_iata
+  - action: utter_explicacion_iata
+  - action: action_imprimir_iata
+
+- rule: mostrar_iata
+  steps:
+  - intent: ver_codigos_iata
+  - action: action_imprimir_iata
+
+# form datos usuario ----------------------------------
+- rule: activar user_data_form
+  steps:
+  - intent: personalizada
+  - action: user_data_form
+  - active_loop: user_data_form
+
+- rule: desactivar user_data_form
+  condition:
+  - active_loop: user_data_form
+  steps:
+  - action: user_data_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_recomendar_personalizado
+
+# form preferencia usuario ----------------------------
+- rule: activar preferencia_form
+  steps:
+  - intent: basica
+  - action: preferencia_form
+  - active_loop: preferencia_form
+
+- rule: desactivar preferencia_form
+  condition:
+  - active_loop: preferencia_form
+  steps:
+  - action: preferencia_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_preferencia_ciudad
+
+# form buscar vuelo -----------------------------------
+- rule: activar buscar_vuelo_ida_form
+  steps:
+  - intent: buscar_vuelo
+  - action: buscar_vuelo_ida_form
+  - active_loop: buscar_vuelo_ida_form
+
+- rule: desactivar buscar_vuelo_form
+  condition:
+  - active_loop: buscar_vuelo_ida_form
+  steps:
+  - action: buscar_vuelo_ida_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_ya_esta_datos_de_ida
+  - intent: afirmar
+  - action: buscar_vuelo_vuelta_form
+  - active_loop: buscar_vuelo_vuelta_form
+
+- rule: desactivar buscar_vuelo_vuelta_form
+  condition:
+  - active_loop: buscar_vuelo_vuelta_form
+  steps:
+  - action: buscar_vuelo_vuelta_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_vuelo
+  - action: action_buscar_vuelo

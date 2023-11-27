@@ -1,0 +1,278 @@
+version: '3.1'
+intents:
+- agradecer
+- saludar
+- despedirse
+- afirmar
+- negar
+- que_es_iata
+- ver_codigos_iata
+
+- recomendar
+- buscar_vuelo
+- decir_nombre
+- viajar
+- decir_origen
+- decir_destino
+- decir_preferencia
+- decir_fechas
+- decir_edad
+- decir_genero
+- personalizada
+- basica
+- ver_datos
+- decir_ingreso
+responses:
+  # Utters basicos----------------------------------------------------------
+  utter_despedida:
+  - text: Nos vemos!
+  - text: Hasta luego!
+  - text: Adios!
+  utter_bienvenida:
+  - text: Hola! Soy tu asistente de viajes. Como te llamas?
+  utter_saludo:
+  - text: Hola {nombre}!
+  utter_ayudar:
+  - text: Como te puedo ayudar {nombre}?
+  - text: En que te puedo ayudar {nombre}?
+  utter_afirmar:
+  - text: Si
+  utter_negar:
+  - text: No
+  utter_cordial:
+  - text: No hay por que
+  - text: De nada
+  - text: Un gusto
+  utter_avisar_cuando_decida:
+  - text: Avisame cuando decidas a donde quieras ir
+  utter_no_puedo_ayudarte:
+  - text: Entonces no puedo ayudarte :/
+  utter_default:
+  - text: No entendi, podrias repetir eso?
+  - text: No entendi, me ayudaria si parafrasearas lo que acabas de decir
+  utter_informar_sobre_bot:
+  - text: Puedo recomendarte un destino, o si ya sabes que queres puedo buscarte un vuelo
+  utter_ya_esta_datos_de_ida:
+  - text: Ya tengo los datos de ida. Vamos por los de vuelta?
+  utter_explicacion_iata:
+  - text: Los codigos IATA son codigos de 3 letras que identifican a cada aeropuerto. Por ejemplo Ezeiza en Argentina tiene el codigo EZE.
+
+  #-------------------------------------------------------------------------
+  # Utters que preguntan al usuario ----------------------------------------
+  utter_destino_decidido:
+  - text: Tenes algun destino en mente?
+  - text: Ya pensaste en algun destino?
+  - text: Pensaste en algún lugar al que te gustaria ir?
+  - text: Tenes pensado visitar algun lugar en particular?
+  - text: Tenes en mente algun sitio que quieras visitar?
+  utter_pedir_datos:
+  - text: Te voy a hacer una preguntas al respecto. Te parece bien?
+  utter_hacer_mas_preguntas:
+  - text: Te puedo hacer unas preguntas para conocerte mejor?
+  utter_pedir_mas_datos:
+  - text: Te hago otra pregunta
+  utter_tipo_recomendacion:
+  - text: Preferis una recomendacion basica o una personalizada? Para la personalizada tengo que hacerte un par mas de preguntas
+  #-------------------------------------------------------------------------
+  # Utters para la form ----------------------------------------------------
+  utter_ask_edad:
+  - text: Que edad tenes?
+  - text: Cuantos anios tenes?
+  utter_ask_origen:
+  - text: En que ciudad estas actualmente?
+  utter_ask_aep_origen:
+  - text: Desde que aeropuerto queres salir? (Ingresa el codigo IATA del aeropuerto)
+  utter_ask_genero:
+  - text: Con que genero te identificas? (hombre/mujer)
+  utter_ask_destino:
+  - text: A donde queres ir?
+  utter_ask_aep_destino:
+  - text: A que aeropuerto queres ir? (Ingresa el codigo IATA del aeropuerto)
+  utter_ask_fechas:
+  - text: En que fechas querias irte? (Responde en formato DD/MM/YYYY)
+  utter_ask_categoria_destino:
+  - text: Preferis un destino con playa, nieve, ciudad, o montanas?
+  utter_ask_fecha_salida:
+  - text: Desde que fecha te querias ir?
+  utter_ask_fecha_regreso:
+  - text: Hasta que fecha te querias ir?
+  utter_ask_ingreso:
+  - text: Que nivel de ingresos tenes? (bajos/medios/altos)
+  #-------------------------------------------------------------------------
+  # Utters que dicen datos -------------------------------------------------
+  utter_datos_nuevos:
+  - text: Tenes {edad} anios, estas en {origen}, tenes ingresos {ingreso}, y sos {genero}
+  utter_vuelo:
+  - text: Entonces vamos a buscar un vuelo de {aep_origen} a {aep_destino} del {fecha_salida} hasta el {fecha_regreso}
+  utter_informacion_de_viaje:
+  - text: Ok, buscaremos viajes a {aep_destino}
+  utter_destinos_de_categoria:
+  - text: Estos son algunos destino con {categoria_destino}
+  #-------------------------------------------------------------------------
+entities:
+- ciudad
+    # roles:
+    # - origen
+    # - destino
+- nombre
+- edad
+- genero
+- fecha
+    # roles:
+    # - regreso
+    # - ida
+- categoria_destino
+- ingreso
+- aeropuerto
+slots:
+  categoria_destino:
+    type: categorical
+    values:
+    - playa
+    - nieve
+    - ciudad
+    - montanas
+    mappings:
+    - type: from_entity
+      entity: categoria_destino
+      conditions:
+      - active_loop: preferencia_form
+  
+  destino_decidido:
+    type: bool
+    influence_conversation: true
+    mappings:
+    - type: custom
+
+  # Fechas --------------------------------------------
+  fecha_regreso:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: fecha
+      # role: regreso
+      conditions:
+      - active_loop: buscar_vuelo_vuelta_form
+
+  fecha_salida:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: fecha
+      # role: ida
+      conditions:
+      - active_loop: buscar_vuelo_ida_form
+  # Datos ---------------------------------------------
+  ingreso:
+    type: categorical
+    values:
+    - bajos
+    - medios
+    - altos
+    mappings:
+    - type: from_entity
+      entity: ingreso
+      conditions:
+      - active_loop: user_data_form
+  edad:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: edad
+      conditions:
+      - active_loop: user_data_form
+
+  genero:
+    type: categorical
+    values:
+    - hombre
+    - mujer
+    mappings:
+    - type: from_entity
+      entity: genero
+      conditions:
+      - active_loop: user_data_form
+
+  nombre:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: nombre
+  # Lugares -------------------------------------------
+  origen:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: ciudad
+      # role: origen
+      # conditions:
+      # - active_loop: buscar_vuelo_ida_form
+
+  destino:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: ciudad
+      # role: destino
+      # conditions:
+      # - active_loop: buscar_vuelo_vuelta_form
+
+  aep_origen:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: aeropuerto
+      # role: origen
+      conditions:
+      - active_loop: buscar_vuelo_ida_form
+
+  aep_destino:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: aeropuerto
+      # role: destino
+      conditions:
+      - active_loop: buscar_vuelo_vuelta_form
+  #----------------------------------------------------
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: false
+actions:
+- utter_hacer_mas_preguntas
+- utter_datos_nuevos
+- utter_bienvenida
+- utter_pedir_fechas
+- action_hacer_prediccion
+- utter_pedir_datos
+- utter_pedir_mas_datos
+- utter_paquete
+- utter_destino_decidido
+- utter_preguntar_destino
+- action_ciudades_cercanas
+- action_preferencia_ciudad
+- utter_ayudar
+- utter_destinos_de_categoria
+- utter_informacion_de_viaje
+- action_recomendar_personalizado
+- action_buscar_vuelo
+- utter_ya_esta_datos_de_ida
+- action_imprimir_iata
+
+forms:
+  user_data_form:
+    required_slots:
+    - edad
+    - genero
+    - ingreso
+  preferencia_form:
+    required_slots:
+    - categoria_destino
+  buscar_vuelo_ida_form:
+    required_slots:
+    - aep_origen
+    - fecha_salida
+  buscar_vuelo_vuelta_form:
+    required_slots:
+    - aep_destino
+    - fecha_regreso

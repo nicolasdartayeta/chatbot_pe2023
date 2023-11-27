@@ -1,0 +1,14 @@
+version: "3.1"
+
+stories:
+- story: iniciar conversacion
+  steps:
+  - intent: saludar
+  - action: utter_bienvenida
+  - intent: decir_nombre
+    entities:
+    - nombre
+  - slot_was_set:
+    - nombre
+  - action: utter_saludo
+  - action: utter_informar_sobre_bot
